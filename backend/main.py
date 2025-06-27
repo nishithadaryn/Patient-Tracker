@@ -13,7 +13,10 @@ class Patients(BaseModel):
 
 app = FastAPI()
 
-origins = ["http://localhost:5173"]
+origins = [
+    "http://localhost:5173",  # for local development
+    "https://your-vercel-project-name.vercel.app"  # 🟢 your deployed frontend
+]
 
 app.add_middleware(
     CORSMiddleware,
