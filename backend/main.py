@@ -1,42 +1,33 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List
-
-class Patient(BaseModel):
-    name: str
-    age: int
-    condition: str
-
-class Patients(BaseModel):
-    patients: List[Patient]
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:5173",  # for local development
-    "https://your-vercel-project-name.vercel.app"  # 🟢 your deployed frontend
-]
-
+# Allow frontend access
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # Change "*" to your frontend domain in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Patient data model
+class Patient(BaseModel):
+    name: str
+    age: int
+    condition: str
+
+# Temporary in-memory database
 memory_db = {"patients": []}
 
-@app.get("/")
-def root():
-    return {"message": "FastAPI is running!"}
-
-@app.get("/patients", response_model=Patients)
+@app.get("/patients")
 def get_patients():
-    return Patients(patients=memory_db["patients"])
+    return {"patients": memory_db["patients"]}
 
 @app.post("/patients")
 def add_patient(patient: Patient):
     memory_db["patients"].append(patient)
+    print("✅ Current DB:", memory_db["patients"])  # Debug print
     return patient
