@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000", // local FastAPI
+  baseURL: "https://patient-tracker-fpk5.onrender.com", // local FastAPI
 });
 
 export default api;
