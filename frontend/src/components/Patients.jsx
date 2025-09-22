@@ -29,15 +29,26 @@ const PatientList = () => {
 
   return (
     <div>
-      <h2>Patient List</h2>
+      {/* ✅ Form first */}
+      <AddPatientForm addPatient={addPatient} />
+
+      {/* ✅ Patient list below */}
+      <h2 className="section-header">Patient List</h2>
       <ul>
         {patients.map((patient, index) => (
           <li key={index}>
-            <strong>{patient.name}</strong> (Age: {patient.age}) - {patient.condition}
+            <strong>{patient.name}</strong> <br />
+            Age: {patient.age || "N/A"} <br />
+            Gender: {patient.gender || "N/A"} <br />
+            Condition: {patient.condition || "N/A"} <br />
+            Allergies: {patient.allergies || "None"} <br />
+            Blood Group: {patient.bloodGroup || "N/A"} <br />
+            Doctor: {patient.doctor || "Not Assigned"} <br />
+            📞 {patient.phone || "N/A"} <br />
+            📍 {patient.address || "N/A"}
           </li>
         ))}
       </ul>
-      <AddPatientForm addPatient={addPatient} />
     </div>
   );
 };
